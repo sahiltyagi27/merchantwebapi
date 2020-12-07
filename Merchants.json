@@ -1,0 +1,203 @@
+{
+	 "_id": "1bb58cfa-063d-4f5c-be5d-b90cfb64d1d6",
+	 "docType": "merchants",
+	 "partitionKey": "1bb58cfa-063d-4f5c-be5d-b90cfb64d1d6",
+	 "merchantName": "Vasamuseet",
+	 "merchantDescription": "Nice museeum",
+	 "parentMerchantID": "2cc58cfa-063d-4f5c-be5d-b90cfb64d1d6",
+	 "siteMenuID": "8450e19f-c0bf-4faa-be64-f9a9e2d68865",
+	 "companyRegistrationNumber": "12231323-234234",
+	 "vatNumber": "SE1239812391273-33AAJ",
+	 "merchantCurrency": "SEK",
+	 "isEnabled": true,
+	 "isCanceled": false,
+	 "blockchainWallet": "$2a$05$RyedoJxf49DXe/BoDsCXNuoKY4DuSOElJL62LMAMg18Z.gW59uTaG",
+	 "walletAmount": 123456789.00,
+	 "walletCurrency": "SEK",
+	 "deliveryAddress": [
+		{
+			 "streetRow1": "Mega street 5",
+			 "streetRow2": "Mega street 5",
+			 "zip": "12233JJHH",
+			 "city": "Stockholm",
+			 "state": "NYC",
+			 "country": "Sweden",
+			 "deliveryEmail": "test.user@vourity.com",
+			 "deliveryPhone": "+46701234567890"
+		}
+	],
+	 "invoiceAddress": [
+		{
+			 "streetRow1": "Mega street 5",
+			 "streetRow2": "Mega street 5",
+			 "zip": "12233JJHH",
+			 "city": "Stockholm",
+			 "state": "NYC",
+			 "country": "Sweden",
+			 "invoiceEmail": "test.user@vourity.com",
+			 "invoicePhonee": "+46701234567890"
+		}
+	],
+	 "pricePlan": {
+		 "_id": "474b917c-9971-4ec4-89b5-0ab80f2607ae",
+		 "pricePlanName": "Basic",
+		 "startBillingDate": "2017-10-16T14:05:36Z",
+		 "endBillingDate": "2017-10-16T14:05:36Z",
+		 "feeStartupAmount": 0,
+		 "feeMonthlySubscriptionBaseAmount": 99.00,
+		 "feeMonthlySubscriptionExtraPerBusinessUnitAmount": 15.00,
+		 "feeMonthlySubscriptionExtraPerUserUnitAmount": 18.50,
+		 "monthlySubscriptionTransactionsCounter": [
+			{
+				 "feeMonthlySubscriptionAmount": 10.00,
+				 "transactionsCountUpTo": 100
+			},
+			{
+				 "feeMonthlySubscriptionAmount": 20,
+				 "transactionsCountUpTo": 200
+			}
+		],
+		 "monthlySubscriptionActiveVouchersCounter": [
+			{
+				 "feeMonthlySubscriptionAmount": 10.00,
+				 "vouchersCountUpTo": 100
+			},
+			{
+				 "feeMonthlySubscriptionAmount": 20,
+				 "vouchersCountUpTo": 200
+			}
+		],
+		 "feePerTransactionPercent": 4.75,
+		 "feePerTransactionAmount": 2.01,
+		 "feePerZeroValueVoucher": 0.25,
+		 "payoutForExpiredVouchersPercent": 80.00,
+		 "feeCurrency": "SEK",
+		 "vatPercent": 25.00,
+		 "vatClass": "VAT1",
+		 "pointOfServiceTypePrices": [
+			{
+				 "pointOfServiceTypeID": "9cc075c0-4cfe-429f-9b6a-b5cbfdd18d44",
+				 "pointOfServiceTypeName": "Vourity POS 1",
+				 "feeStartupAmount": 3000,
+				 "feeMonthlySubscriptionAmount": 99.00
+			},
+			{
+				 "pointOfServiceTypeID": "f6ff06ad-4041-4a4c-888c-d8d17cce6c76",
+				 "pointOfServiceTypeName": "Vourity POS 2",
+				 "feeStartupAmount": 3000,
+				 "feeMonthlySubscriptionAmount": 99.00
+			},
+			{
+				 "pointOfServiceTypeID": "25f15871-e651-4cc8-a786-36eba646d104",
+				 "pointOfServiceTypeName": "Vourity Box 1",
+				 "feeStartupAmount": 3000,
+				 "feeMonthlySubscriptionAmount": 99.00
+			},
+			{
+				 "pointOfServiceTypeID": "977ce018-7e91-44a6-81ca-3335d677ccd6",
+				 "pointOfServiceTypeName": "Vourity Box 2",
+				 "feeStartupAmount": 3000,
+				 "feeMonthlySubscriptionAmount": 99.00
+			},
+			{
+				 "pointOfServiceTypeID": "7fb981d2-9fdb-4a11-9c50-e1dfb03f33dc",
+				 "pointOfServiceTypeName": "Vourity Display",
+				 "feeStartupAmount": 3000,
+				 "feeMonthlySubscriptionAmount": 99.00
+			},
+			{
+				 "pointOfServiceTypeID": "85aaee78-05a4-42db-97e7-5b9b026bf187",
+				 "pointOfServiceTypeName": "External POS",
+				 "feeStartupAmount": 3000,
+				 "feeMonthlySubscriptionAmount": 99.00
+			}
+		]
+	},
+	 "payoutBankAccounts": [
+		{
+			 "bank": "SEB",
+			 "country": "SE",
+			 "currency": "SEK",
+			 "accountType": "iban",
+			 "account": "1212323JJJ",
+			 "bic": "ESSTTEHH",
+			 "lastPayout": "2017-10-16T14:05:36Z"
+		},
+		{
+			 "bank": "SEB",
+			 "country": "SE",
+			 "currency": "EUR",
+			 "accountType": "iban",
+			 "account": "344542323JJJ",
+			 "bic": "ESSTTEHH",
+			 "lastPayout": "2017-10-16T14:05:36Z"
+		}
+	],
+	 "balanceAccounts": [
+		{
+			 "balanceAccountID": "174b917c-9971-4ec4-89b5-0ab80f2607ae",
+			 "balanceAccountName": "My SEK account",
+			 "balanceAccountDescription": "Nice account",
+			 "balanceAccountType": "balance",
+			 "balanceCurrency": "SEK",
+			 "lastPayoutTransactionID": "ABC58cfa-063d-4f5c-be5d-b90cfb64d1d6",
+			 "lastPayout": "2017-10-16T14:05:36Z"
+		},
+		{
+			 "balanceAccountID": "274b917c-9971-4ec4-89b5-0ab80f2607ae",
+			 "balanceAccountName": "My EUR account",
+			 "balanceAccountDescription": "Nice account",
+			 "balanceAccountType": "balance",
+			 "balanceCurrency": "EUR",
+			 "lastPayoutTransactionID": "ABC58cfa-063d-4f5c-be5d-b90cfb64d1d6",
+			 "lastPayout": "2017-10-16T14:05:36Z"
+		}
+	],
+	 "cashpools": [
+		{
+			 "balanceAccountID": "374b917c-9971-4ec4-89b5-0ab80f2607ae",
+			 "balanceAccountName": "My SEK account",
+			 "balanceAccountDescription": "Nice account",
+			 "balanceAccountType": "cashpool",
+			 "balanceCurrency": "SEK"
+		},
+		{
+			 "balanceAccountID": "474b917c-9971-4ec4-89b5-0ab80f2607ae",
+			 "balanceAccountName": "My EUR account",
+			 "balanceAccountDescription": "Nice account",
+			 "balanceAccountType": "cashpool",
+			 "balanceCurrency": "EUR"
+		}
+	],
+	 "pspName": "Stripe",
+	 "pspAccount": "sdkjhdqw873djqw",
+	 "pspEmail": "test@vourity.com",
+	 "pspPricePlanID": "plan_CbvZlrtet27kcB",
+	 "pspToken": "AbvZlrtet27kcB",
+	 "pspSource": "src_18eYalAHEMiOZZp1l9ZTjSU0",
+	 "pspSourceSecret": "xyz123",
+	 "payoutFrequency": "weekly",
+	 "transactionsLastMonth": 1234,
+	 "transactionsLastCount": "2017-10-16T14:05:36Z",
+	 "businessUnitsLastMonth": 2,
+	 "businessUnitsLastCount": "2017-10-16T14:05:36Z",
+	 "vouchersActiveLastMonth": 1234,
+	 "vouchersActiveLastCount": "2017-10-16T14:05:36Z",
+	 "usersLastMonth": 2,
+	 "usersLastCount": "2017-10-16T14:05:36Z",
+	 "canceledDate": "2017-10-16T14:05:36Z",
+	 "countryCode": "SE",
+	 "email": "test.user@vourity.com",
+	 "phone": "+46701234567890",
+	 "lastPayoutDate": "2017-10-16T14:05:36Z",
+	 "nextPayoutDate": "2017-11-16T14:05:36Z",
+	 "isMerchantHandlingSettlement": false,
+	 "knowYourCustomer": {
+		 "isKycCheckDone": true,
+		 "kycCheckDoneByUserID": "67858cfa-063d-4f5c-be5d-b90cfb64d1d6",
+		 "kycCheckStatus": "approved,denied",
+		 "lastKycCheckDate": "2020-04-14T14:05:36Z"
+	},
+	 "createdDate": "2017-10-16T14:05:36Z",
+	 "updatedDate": "2017-10-16T15:18:12Z"
+}

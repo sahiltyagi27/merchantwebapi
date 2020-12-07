@@ -1,0 +1,15 @@
+{
+  "name": "mwebapi",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests yet...\""
+  },
+  "dependencies": {
+    "azure-functions-core-tools": "^2.7.3023",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.3"
+  },
+  "devDependencies": {}
+}
