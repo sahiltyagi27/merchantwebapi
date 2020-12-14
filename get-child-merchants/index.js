@@ -1,10 +1,9 @@
 const errors = require('../errors');
 const utils = require('../utils');
-const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017/';
-
+const { database } = require('../db/mongodb')
 module.exports = async function (context, req) {
     try {
+        let collection = database.collection("merchants");
         const user = {
 
             merchants: [
@@ -33,27 +32,9 @@ module.exports = async function (context, req) {
             return Promise.resolve();
         }
 
-        MongoClient.connect(url, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        }, function (err, db) {
-            console.log('db connected');
-            var dbo = db.db("mydb");
-
-            try {
-                if (err) throw err;
-            }
-            catch (err) {
-
-            }
-            const collection = dbo.collection('merchants');
-            collection.find({ parentMerchantID: { $eq: req.query.id } }).limit(200).toArray(function (err, docs) {
-                console.log("Found the following records");
-                console.log(docs)
-                dbo.close();
-            });
-
-        });
+        let docs = await collection.find({ parentMerchantID: { $eq: req.query.id } }).limit(200).toArray();
+        console.log("Found the following records");
+        console.log(docs)
         return Promise.resolve();
 
     } catch (err) {

@@ -1,6 +1,5 @@
 const errors = require('../errors');
-const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://localhost:27017/";
+const { database } = require('../db/mongodb');
 const utils = require('../utils');
 
 module.exports = async function (context, req) {
@@ -59,40 +58,8 @@ module.exports = async function (context, req) {
             );
             return Promise.resolve();
         }
-
-
-
-        await MongoClient.connect(url, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        }, function (err, db) {
-
-            try {
-                if (err) throw err;
-            }
-            catch (err) {
-
-            }
-
-            var dbo = db.db("mydb");
-            const result = dbo.collection("accesslogs").insertOne(req.body, function (err, res) {
-
-                try {
-                    if (err) throw err;
-                }
-                catch (err) {
-
-                }
-
-                console.log("access log created and added");
-                db.close();
-            });
-            context.res = {
-                body: result
-            };
-            return Promise.resolve();
-
-        });
+        const result = database.collection("accesslogs").insertOne(req.body);
+        console.log(result);
     }
     catch (err) {
         utils.handleError(context, err);

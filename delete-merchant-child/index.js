@@ -1,8 +1,6 @@
 const errors = require('../errors');
 const utils = require('../utils');
-const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017/';
-
+const { database } = require('../db/mongodb');
 
 module.exports = async function (context, req) {
 
@@ -24,28 +22,11 @@ module.exports = async function (context, req) {
                 isValidMerchant = true;
             }
         }
-
-        MongoClient.connect(url, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        }, function (err, db) {
-            console.log('db connected');
-            var dbo = db.db("mydb");
-
-            try {
-                if (err) throw err;
-            }
-            catch (err) {
-
-            }
-            const collection = dbo.collection('merchants');
-            collection.deleteOne({ parentMerchantID: req.query.parentMerchantID, _id: req.query.childID }, function (err, docs) {
-                console.log("Deleted the following records");
-                console.log(docs)
-                dbo.close();
-            });
-
-        });
+        const collection = database.collection('merchants');
+        collection.deleteOne({ parentMerchantID: req.query.parentMerchantID, _id: req.query.childID });
+        context.res = {
+            body: 'Deleted a data'
+        }
 
     } catch (err) {
         utils.handleError(context, err);

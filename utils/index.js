@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-
+const {errors} = require('../errors');
 module.exports.authenticateRequest = (req, res, next) => {
     try {
         if (req.headers.authorization == null) {
