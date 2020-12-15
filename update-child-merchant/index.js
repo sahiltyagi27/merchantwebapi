@@ -1,9 +1,6 @@
 const errors = require('../errors');
 const utils = require('../utils');
-const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017/';
-
-
+const { database } = require('../db/mongodb');
 
 module.exports = async function (context, req) {
     try {
@@ -17,7 +14,6 @@ module.exports = async function (context, req) {
 
         };
 
-
         let isValidMerchant = false;
         for (let i = 0; i < user.merchants.length; i++) {
             if (user.merchants[i].merchantID == req.query.parentMerchantID) {
@@ -25,26 +21,9 @@ module.exports = async function (context, req) {
             }
         }
 
-        MongoClient.connect(url, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        }, function (err, db) {
-            console.log('db connected');
-            var dbo = db.db("mydb");
-
-            try {
-                if (err) throw err;
-            }
-            catch (err) {
-
-            }
-            const collection = dbo.collection('merchants');
-            collection.updateOne({ parentMerchantID: req.query.parentMerchantID, _id: req.query.childID }, { $set: req.body }, function (err, docs) {
-                console.log("Modified the record");
-                dbo.close();
-            });
-
-        });
+        const collection = database.collection('merchants');
+        collection.updateOne({ parentMerchantID: req.query.parentMerchantID, _id: req.query.childID }, { $set: req.body });
+        console.log('Modified the record')
 
     } catch (err) {
         utils.handleError(context, err);
