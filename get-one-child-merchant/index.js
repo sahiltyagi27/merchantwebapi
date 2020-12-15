@@ -5,6 +5,10 @@ const { database } = require('../db/mongodb');
 module.exports = async function (context, req) {
 
     try {
+
+        /*   if (!utils.authenticateRequest(req, res, next)) {
+               errors.UserNotAuthenticatedError(req, res, next);
+           }*/
         const user = {
 
             merchants: [
@@ -14,7 +18,6 @@ module.exports = async function (context, req) {
             ],
 
         };
-
 
         let isValidMerchant = false;
         for (let i = 0; i < user.merchants.length; i++) {

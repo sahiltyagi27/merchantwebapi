@@ -5,6 +5,10 @@ const { database } = require('../db/mongodb');
 module.exports = async function (context, req) {
 
     try {
+
+        /*   if (!utils.authenticateRequest(req, res, next)) {
+               errors.UserNotAuthenticatedError(req, res, next);
+           }*/
         const user = {
 
             merchants: [
@@ -34,43 +38,43 @@ module.exports = async function (context, req) {
         const collection = database.collection('accesslogs');
 
         switch (req.query.filter) {
-            case "posMerchantID": findPosDocuments(collection, req.query.filterValue, lastFunction);
+            case "posMerchantID": findPosDocuments(collection, req.query.filterValue);
 
                 break;
-            case "tokenMerchantID": findTokenDocuments(collection, req.query.filterValue, lastFunction);
-
-                break;
-
-            case "siteID": findSiteDocuments(collection, req.query.filterValue, lastFunction);
-
-                break;
-            case "zoneID": findZoneDocuments(collection, req.query.filterValue, lastFunction);
-
-                break;
-            case "pointofServiceID": findServiceDocuments(collection, req.query.filterValue, lastFunction);
-
-                break;
-            case "accessTokenID": findAccessTokenDocuments(collection, req.query.filterValue, lastFunction);
-
-                break;
-            case "walletID": findWalletDocuments(collection, req.query.filterValue, lastFunction);
-
-                break;
-            case "accessTokenType": findAccessTokenTypeDocuments(collection, req.query.filterValue, lastFunction);
-
-                break;
-            case "accessRoleCode": findAccessRoleCodeDocuments(collection, req.query.accessRoleCode, lastFunction);
-
-                break;
-            case "eventCode": findEventCodeDocuments(collection, req.query.filterValue, lastFunction);
-
-                break;
-            case "statusCode": findstatusCodeDocuments(collection, req.query.filterValue, lastFunction);
+            case "tokenMerchantID": findTokenDocuments(collection, req.query.filterValue);
 
                 break;
 
+            case "siteID": findSiteDocuments(collection, req.query.filterValue);
 
-            default: findDocuments(collection, lastFunction);
+                break;
+            case "zoneID": findZoneDocuments(collection, req.query.filterValue);
+
+                break;
+            case "pointofServiceID": findServiceDocuments(collection, req.query.filterValue);
+
+                break;
+            case "accessTokenID": findAccessTokenDocuments(collection, req.query.filterValue);
+
+                break;
+            case "walletID": findWalletDocuments(collection, req.query.filterValue);
+
+                break;
+            case "accessTokenType": findAccessTokenTypeDocuments(collection, req.query.filterValue);
+
+                break;
+            case "accessRoleCode": findAccessRoleCodeDocuments(collection, req.query.accessRoleCode);
+
+                break;
+            case "eventCode": findEventCodeDocuments(collection, req.query.filterValue);
+
+                break;
+            case "statusCode": findstatusCodeDocuments(collection, req.query.filterValue);
+
+                break;
+
+
+            default: findDocuments(collection);
                 break;
         }
     } catch (err) {
@@ -78,104 +82,87 @@ module.exports = async function (context, req) {
     }
 }
 
-const findDocuments = function (collection, callback) {
+const findDocuments = function (collection) {
     collection.find({}).sort({ "createdDate": -1 }).limit(200).toArray(function (err, docs) {
         console.log("Found the following records");
         console.log(docs)
-        callback(docs);
     });
 }
 
-const findPosDocuments = function (collection, id, callback) {
+const findPosDocuments = function (collection, id) {
     collection.find({ posMerchantID: { $eq: id } }).toArray(function (err, docs) {
         console.log("Found the following records");
         console.log(docs)
-        callback(docs);
     });
 }
 
-const findTokenDocuments = function (collection, id, callback) {
+const findTokenDocuments = function (collection, id) {
     console.log('func running')
     collection.find({ tokenMerchantID: { $eq: id } }).toArray(function (err, docs) {
         console.log("Found the following records");
         console.log(docs)
-        callback(docs);
     });
 }
 
-const findSiteDocuments = function (collection, id, callback) {
+const findSiteDocuments = function (collection, id) {
     collection.find({ siteID: { $eq: id } }).toArray(function (err, docs) {
         console.log("Found the following records");
         console.log(docs)
-        callback(docs);
     });
 }
 
-const findZoneDocuments = function (collection, id, callback) {
+const findZoneDocuments = function (collection, id) {
     collection.find({ zoneID: { $eq: id } }).toArray(function (err, docs) {
         console.log("Found the following records");
         console.log(docs)
-        callback(docs);
     });
 }
 
-const findServiceDocuments = function (collection, id, callback) {
+const findServiceDocuments = function (collection, id) {
     collection.find({ pointOfServiceID: { $eq: id } }).toArray(function (err, docs) {
         console.log("Found the following records");
         console.log(docs)
-        callback(docs);
     });
 }
 
-const findAccessTokenDocuments = function (collection, id, callback) {
+const findAccessTokenDocuments = function (collection, id) {
     collection.find({ accessTokenID: { $eq: id } }).toArray(function (err, docs) {
         console.log("Found the following records");
         console.log(docs)
-        callback(docs);
     });
 }
 
-const findWalletDocuments = function (collection, id, callback) {
+const findWalletDocuments = function (collection, id) {
     collection.find({ walletID: { $eq: id } }).toArray(function (err, docs) {
         console.log("Found the following records");
         console.log(docs)
-        callback(docs);
     });
 }
 
-const findAccessTokenTypeDocuments = function (collection, id, callback) {
+const findAccessTokenTypeDocuments = function (collection, id) {
     collection.find({ accessTokenType: { $eq: id } }).toArray(function (err, docs) {
         console.log("Found the following records");
         console.log(docs)
-        callback(docs);
     });
 }
 
-const findAccessRoleCodeDocuments = function (collection, id, callback) {
+const findAccessRoleCodeDocuments = function (collection, id) {
     collection.find({ accessRoleCode: { $eq: id } }).toArray(function (err, docs) {
         console.log("Found the following records");
         console.log(docs)
-        callback(docs);
     });
 }
 
-const findEventCodeDocuments = function (collection, id, callback) {
+const findEventCodeDocuments = function (collection, id) {
     collection.find({ eventCode: { $eq: id } }).toArray(function (err, docs) {
         console.log("Found the following records");
         console.log(docs)
-        callback(docs);
     });
 }
 
-const findstatusCodeDocuments = function (collection, id, callback) {
+const findstatusCodeDocuments = function (collection, id) {
     collection.find({ statusCode: { $eq: id } }).toArray(function (err, docs) {
         console.log("Found the following records");
         console.log(docs)
-        callback(docs);
     });
-}
-
-const lastFunction = () => {
-    console.log('closing connection')
-    db.close();
 }
