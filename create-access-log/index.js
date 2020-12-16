@@ -58,8 +58,12 @@ module.exports = async function (context, req) {
             );
             return Promise.resolve();
         }
-        const result = database.collection("accesslogs").insertOne(req.body);
-        console.log(result);
+        const result = await database.collection("accesslogs").insertOne(req.body);
+        context.res = {
+            body: "A new access log has been created"
+        }
+        return Promise.resolve();
+
     }
     catch (err) {
         utils.handleError(context, err);

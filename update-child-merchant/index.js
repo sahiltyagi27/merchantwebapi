@@ -26,9 +26,11 @@ module.exports = async function (context, req) {
         }
 
         const collection = database.collection('merchants');
-        collection.updateOne({ parentMerchantID: req.query.parentMerchantID, _id: req.query.childID }, { $set: req.body });
-        console.log('Modified the record')
-
+        let docs = await collection.updateOne({ parentMerchantID: req.query.parentMerchantID, _id: req.query.childID }, { $set: req.body });
+        context.res = {
+            body: docs
+        }
+        return Promise.resolve()
     } catch (err) {
         utils.handleError(context, err);
     }

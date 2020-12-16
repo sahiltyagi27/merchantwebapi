@@ -36,133 +36,39 @@ module.exports = async function (context, req) {
             return Promise.resolve();
         }
         const collection = database.collection('accesslogs');
+        let docs
 
-        switch (req.query.filter) {
-            case "posMerchantID": findPosDocuments(collection, req.query.filterValue);
-
-                break;
-            case "tokenMerchantID": findTokenDocuments(collection, req.query.filterValue);
-
-                break;
-
-            case "siteID": findSiteDocuments(collection, req.query.filterValue);
-
-                break;
-            case "zoneID": findZoneDocuments(collection, req.query.filterValue);
-
-                break;
-            case "pointofServiceID": findServiceDocuments(collection, req.query.filterValue);
-
-                break;
-            case "accessTokenID": findAccessTokenDocuments(collection, req.query.filterValue);
-
-                break;
-            case "walletID": findWalletDocuments(collection, req.query.filterValue);
-
-                break;
-            case "accessTokenType": findAccessTokenTypeDocuments(collection, req.query.filterValue);
-
-                break;
-            case "accessRoleCode": findAccessRoleCodeDocuments(collection, req.query.accessRoleCode);
-
-                break;
-            case "eventCode": findEventCodeDocuments(collection, req.query.filterValue);
-
-                break;
-            case "statusCode": findstatusCodeDocuments(collection, req.query.filterValue);
-
-                break;
-
-
-            default: findDocuments(collection);
-                break;
+        if (req.query.filter == 'posMerchantID') {
+            docs = await collection.find({ posMerchantID: { $eq: req.query.filterValue } }).toArray()
+        } else if (req.query.filter == 'tokenMerchantID') {
+            docs = await collection.find({ tokenMerchantID: { $eq: req.query.filterValue } }).toArray();
+        } else if (req.query.filter == 'findSiteDocuments') {
+            docs = await collection.find({ siteID: { $eq: req.query.filterValue } }).toArray();
+        } else if (req.query.filter == 'zoneID') {
+            docs = await collection.find({ zoneID: { $eq: req.query.filterValue } }).toArray();
+        } else if (req.query.filter == 'pointofServiceID') {
+            docs = await collection.find({ pointOfServiceID: { $eq: req.query.filterValue } }).toArray();
+        } else if (req.query.filter == 'accessTokenID') {
+            docs = await collection.find({ accessTokenID: { $eq: req.query.filterValue } }).toArray();
+        } else if (req.query.filter == 'walletID') {
+            docs = await collection.find({ walletID: { $eq: req.query.filterValue } }).toArray();
+        } else if (req.query.filter == 'accessTokenType') {
+            docs = await collection.find({ accessTokenType: { $eq: req.query.filterValue } }).toArray();
+        } else if (req.query.filter == 'accessRoleCode') {
+            docs = await collection.find({ accessRoleCode: { $eq: req.query.filterValue } }).toArray();
+        } else if (req.query.filter == 'eventCode') {
+            docs = await collection.find({ eventCode: { $eq: req.query.filterValue } }).toArray();
+        } else if (req.query.filter == 'statusCode') {
+            docs = collection.find({ statusCode: { $eq: req.query.filterValue } }).toArray();
+        } else {
+            docs = await collection.find({}).sort({ "createdDate": -1 }).limit(200).toArray()
         }
+
+        context.res = {
+            body: docs
+        }
+        return Promise.resolve()
     } catch (err) {
         utils.handleError(context, err);
     }
-}
-
-const findDocuments = function (collection) {
-    collection.find({}).sort({ "createdDate": -1 }).limit(200).toArray(function (err, docs) {
-        console.log("Found the following records");
-        console.log(docs)
-    });
-}
-
-const findPosDocuments = function (collection, id) {
-    collection.find({ posMerchantID: { $eq: id } }).toArray(function (err, docs) {
-        console.log("Found the following records");
-        console.log(docs)
-    });
-}
-
-const findTokenDocuments = function (collection, id) {
-    console.log('func running')
-    collection.find({ tokenMerchantID: { $eq: id } }).toArray(function (err, docs) {
-        console.log("Found the following records");
-        console.log(docs)
-    });
-}
-
-const findSiteDocuments = function (collection, id) {
-    collection.find({ siteID: { $eq: id } }).toArray(function (err, docs) {
-        console.log("Found the following records");
-        console.log(docs)
-    });
-}
-
-const findZoneDocuments = function (collection, id) {
-    collection.find({ zoneID: { $eq: id } }).toArray(function (err, docs) {
-        console.log("Found the following records");
-        console.log(docs)
-    });
-}
-
-const findServiceDocuments = function (collection, id) {
-    collection.find({ pointOfServiceID: { $eq: id } }).toArray(function (err, docs) {
-        console.log("Found the following records");
-        console.log(docs)
-    });
-}
-
-const findAccessTokenDocuments = function (collection, id) {
-    collection.find({ accessTokenID: { $eq: id } }).toArray(function (err, docs) {
-        console.log("Found the following records");
-        console.log(docs)
-    });
-}
-
-const findWalletDocuments = function (collection, id) {
-    collection.find({ walletID: { $eq: id } }).toArray(function (err, docs) {
-        console.log("Found the following records");
-        console.log(docs)
-    });
-}
-
-const findAccessTokenTypeDocuments = function (collection, id) {
-    collection.find({ accessTokenType: { $eq: id } }).toArray(function (err, docs) {
-        console.log("Found the following records");
-        console.log(docs)
-    });
-}
-
-const findAccessRoleCodeDocuments = function (collection, id) {
-    collection.find({ accessRoleCode: { $eq: id } }).toArray(function (err, docs) {
-        console.log("Found the following records");
-        console.log(docs)
-    });
-}
-
-const findEventCodeDocuments = function (collection, id) {
-    collection.find({ eventCode: { $eq: id } }).toArray(function (err, docs) {
-        console.log("Found the following records");
-        console.log(docs)
-    });
-}
-
-const findstatusCodeDocuments = function (collection, id) {
-    collection.find({ statusCode: { $eq: id } }).toArray(function (err, docs) {
-        console.log("Found the following records");
-        console.log(docs)
-    });
 }

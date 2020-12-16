@@ -27,11 +27,11 @@ module.exports = async function (context, req) {
             }
         }
         const collection = database.collection('merchants');
-        collection.deleteOne({ parentMerchantID: req.query.parentMerchantID, _id: req.query.childID });
+        let doc = await collection.deleteOne({ parentMerchantID: req.query.parentMerchantID, _id: req.query.childID });
         context.res = {
-            body: 'Deleted a data'
+            body: doc
         }
-
+        return Promise.resolve()
     } catch (err) {
         utils.handleError(context, err);
     }

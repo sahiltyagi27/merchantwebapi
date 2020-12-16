@@ -37,8 +37,9 @@ module.exports = async function (context, req) {
         }
 
         let docs = await collection.find({ parentMerchantID: { $eq: req.query.id } }).limit(200).toArray();
-        console.log("Found the following records");
-        console.log(docs)
+        context.res = {
+            body: docs
+        }
         return Promise.resolve();
 
     } catch (err) {

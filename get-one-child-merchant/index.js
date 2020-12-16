@@ -27,9 +27,11 @@ module.exports = async function (context, req) {
         }
 
         const collection = database.collection('merchants');
-        collection.findOne({ parentMerchantID: { $eq: req.query.parentMerchantID }, _id: { $eq: req.query.childID } });
-
-
+        let doc = await collection.findOne({ parentMerchantID: { $eq: req.query.parentMerchantID }, _id: { $eq: req.query.childID } });
+        context.res = {
+            body: doc
+        }
+        return Promise.resolve()
 
     } catch (err) {
         utils.handleError(context, err);
