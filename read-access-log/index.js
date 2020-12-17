@@ -1,7 +1,6 @@
 const errors = require('../errors');
 const utils = require('../utils');
-const { database } = require('../db/mongodb');
-
+const request = require('request-promise');
 module.exports = async function (context, req) {
 
     try {
@@ -9,7 +8,7 @@ module.exports = async function (context, req) {
         /*   if (!utils.authenticateRequest(req, res, next)) {
                errors.UserNotAuthenticatedError(req, res, next);
            }*/
-        const user = {
+        /*const user = {
 
             merchants: [
                 { merchantID: '12358cfa-063d-4f5c-be5d-b90cfb64d1d6' },
@@ -17,7 +16,7 @@ module.exports = async function (context, req) {
                 { merchantID: '12358cfa-063d-4f5c-be5d-b90cfb64d1d8' }
             ],
 
-        };
+        };*/
 
         let isValidMerchant = false;
         for (var i = 0, len = user.merchants.length; i < len; i++) {
@@ -35,39 +34,20 @@ module.exports = async function (context, req) {
             );
             return Promise.resolve();
         }
-        const collection = database.collection('accesslogs');
-        let docs
+        const result = await request.get(`${process.env.DEVICE_API_URL}/api/${process.env.DEVICE_API_VERSION}/merchants/${req.params.id}/access-log/${req.params.accessLogID}`, {
+            json: true,
+            headers: {
+                'x-functions-key': process.env.DEVICE_API_KEY
+            }
+        });
 
-        if (req.query.filter == 'posMerchantID') {
-            docs = await collection.find({ posMerchantID: { $eq: req.query.filterValue } }).toArray()
-        } else if (req.query.filter == 'tokenMerchantID') {
-            docs = await collection.find({ tokenMerchantID: { $eq: req.query.filterValue } }).toArray();
-        } else if (req.query.filter == 'findSiteDocuments') {
-            docs = await collection.find({ siteID: { $eq: req.query.filterValue } }).toArray();
-        } else if (req.query.filter == 'zoneID') {
-            docs = await collection.find({ zoneID: { $eq: req.query.filterValue } }).toArray();
-        } else if (req.query.filter == 'pointofServiceID') {
-            docs = await collection.find({ pointOfServiceID: { $eq: req.query.filterValue } }).toArray();
-        } else if (req.query.filter == 'accessTokenID') {
-            docs = await collection.find({ accessTokenID: { $eq: req.query.filterValue } }).toArray();
-        } else if (req.query.filter == 'walletID') {
-            docs = await collection.find({ walletID: { $eq: req.query.filterValue } }).toArray();
-        } else if (req.query.filter == 'accessTokenType') {
-            docs = await collection.find({ accessTokenType: { $eq: req.query.filterValue } }).toArray();
-        } else if (req.query.filter == 'accessRoleCode') {
-            docs = await collection.find({ accessRoleCode: { $eq: req.query.filterValue } }).toArray();
-        } else if (req.query.filter == 'eventCode') {
-            docs = await collection.find({ eventCode: { $eq: req.query.filterValue } }).toArray();
-        } else if (req.query.filter == 'statusCode') {
-            docs = collection.find({ statusCode: { $eq: req.query.filterValue } }).toArray();
-        } else {
-            docs = await collection.find({}).sort({ "createdDate": -1 }).limit(200).toArray()
-        }
 
         context.res = {
-            body: docs
-        }
-        return Promise.resolve()
+            body: result
+        };
+        return Promise.resolve();
+
+
     } catch (err) {
         utils.handleError(context, err);
     }
