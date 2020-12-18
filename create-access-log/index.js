@@ -1,5 +1,5 @@
 const errors = require('../errors');
-const { database } = require('../db/mongodb');
+//const { database } = require('../db/mongodb');
 const utils = require('../utils');
 
 module.exports = async function (context, req) {
@@ -58,10 +58,10 @@ module.exports = async function (context, req) {
             );
             return Promise.resolve();
         }
-        const result = await database.collection("accesslogs").insertOne(req.body);
+       /* const result = await database.collection("accesslogs").insertOne(req.body);
         context.res = {
             body: "A new access log has been created"
-        }
+        }*/
         return Promise.resolve();
 
     }

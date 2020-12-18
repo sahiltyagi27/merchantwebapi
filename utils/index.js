@@ -1,22 +1,27 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const {errors} = require('../errors');
-module.exports.authenticateRequest = (req, res, next) => {
-    try {
-        if (req.headers.authorization == null) {
+const errors = require('../errors');
+exports.authenticateRequest = (context, req) => {
+    if (req.headers.authorization) {
+        try {
+            if (this.decodeToken(req.headers.authorization).exp <= new Date()) {
+                return true;
+            }
+        } catch (e) {
             return false;
         }
-        jwt.verify(req.headers.authorization, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
-            if (err) {
-                throw err;
-            }
-            return true;
-        });
-    } catch (err) {
+    } else {
         return false;
     }
-}
-
+};
+exports.decodeToken = (token) => {
+    try {
+        const decodedToken = jwt.decode(token, process.env.JWT_SECRET);
+        return decodedToken;
+    } catch (e) {
+        return e;
+    }
+};
 
 exports.handleError = (context, error) => {
     context.log.error(error);

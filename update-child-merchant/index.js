@@ -1,6 +1,6 @@
 const errors = require('../errors');
 const utils = require('../utils');
-const { database } = require('../db/mongodb');
+//const { database } = require('../db/mongodb');
 
 module.exports = async function (context, req) {
     try {
@@ -25,11 +25,11 @@ module.exports = async function (context, req) {
             }
         }
 
-        const collection = database.collection('merchants');
+  /*      const collection = database.collection('merchants');
         let docs = await collection.updateOne({ parentMerchantID: req.query.parentMerchantID, _id: req.query.childID }, { $set: req.body });
         context.res = {
             body: docs
-        }
+        }*/
         return Promise.resolve()
     } catch (err) {
         utils.handleError(context, err);

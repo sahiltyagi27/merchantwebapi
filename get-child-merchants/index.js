@@ -1,6 +1,6 @@
 const errors = require('../errors');
 const utils = require('../utils');
-const { database } = require('../db/mongodb')
+//const { database } = require('../db/mongodb')
 module.exports = async function (context, req) {
     try {
 
@@ -36,12 +36,12 @@ module.exports = async function (context, req) {
             return Promise.resolve();
         }
 
-        let docs = await collection.find({ parentMerchantID: { $eq: req.query.id } }).limit(200).toArray();
+       /* let docs = await collection.find({ parentMerchantID: { $eq: req.query.id } }).limit(200).toArray();
         context.res = {
             body: docs
         }
         return Promise.resolve();
-
+*/
     } catch (err) {
         utils.handleError(context, err);
     }

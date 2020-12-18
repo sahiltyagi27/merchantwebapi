@@ -6,9 +6,9 @@
       "direction": "in",
       "name": "req",
       "methods": [
-        "get"
-      ],
-      "route": "read-access-log/merchants/{merchantID}/filters/{filter}/value/{filterValue}"
+        "get",
+        "post"
+      ]
     },
     {
       "type": "http",
