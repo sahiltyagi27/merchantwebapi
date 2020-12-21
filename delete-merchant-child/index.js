@@ -1,7 +1,6 @@
 const errors = require('../errors');
 const utils = require('../utils');
-//const { database } = require('../db/mongodb');
-
+const request = require('request-promise');
 module.exports = async function (context, req) {
 
     try {
@@ -22,15 +21,31 @@ module.exports = async function (context, req) {
 
         let isValidMerchant = false;
         for (let i = 0; i < user.merchants.length; i++) {
-            if (user.merchants[i].merchantID == req.query.parentMerchantID) {
+            if (user.merchants[i].merchantID == req.params.parentMerchantID) {
                 isValidMerchant = true;
             }
         }
-        /*const collection = database.collection('merchants');
-        let doc = await collection.deleteOne({ parentMerchantID: req.query.parentMerchantID, _id: req.query.childID });
+        if (!isValidMerchant) {
+            utils.setContextResError(
+                context,
+                new errors.UserNotAuthenticatedError(
+                    'user not linked to merchant',
+                    401
+                )
+            )
+            return Promise.resolve();
+        }
+
+        const result = await request.delete(`http://localhost:7070/api/delete-merchant-child/${req.params.parentMerchantID}/child/${req.params.childID}`, {
+            json: true,
+            headers: {
+                'x-functions-key': process.env.DEVICE_API_KEY
+            }
+        });
+
         context.res = {
-            body: doc
-        }*/
+            body: result
+        };
         return Promise.resolve()
     } catch (err) {
         utils.handleError(context, err);

@@ -51,3 +51,13 @@ class FieldValidationError extends BaseError {
     }
 }
 exports.FieldValidationError = FieldValidationError;
+
+class MerchantWebApiServerError extends BaseError {
+    constructor (name, message, code) {
+        super(message, code);
+        this.name = name;
+        this.code = code;
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+exports.MerchantWebApiServerError = MerchantWebApiServerError;

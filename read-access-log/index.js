@@ -46,7 +46,7 @@ module.exports = async function (context, req) {
             );
             return Promise.resolve();
         }
-        const result = await request.get(`http://localhost:7070/api/read-access-log/merchants/${req.params.merchantID}/filter/${req.params.filter}/value/${req.params.filterValue}`, {
+        const result = await request.get(`http://localhost:7070/api/read-access-log/merchants/${req.params.merchantID}/filters/${req.params.filter}/value/${req.params.filterValue}`, {
             json: true,
             headers: {
                 'x-functions-key': process.env.DEVICE_API_KEY

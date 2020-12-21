@@ -1,7 +1,6 @@
 const errors = require('../errors');
-//const { database } = require('../db/mongodb');
 const utils = require('../utils');
-
+const request = require('request-promise');
 module.exports = async function (context, req) {
     try {
 
@@ -58,11 +57,16 @@ module.exports = async function (context, req) {
             );
             return Promise.resolve();
         }
-       /* const result = await database.collection("accesslogs").insertOne(req.body);
+        const result = await request.post(`http://localhost:7070/api/access-log`, {
+            body: req.body,
+            json: true,
+            headers: {
+                'x-functions-key': process.env.DEVICE_API_KEY
+            }
+        });
         context.res = {
-            body: "A new access log has been created"
-        }*/
-        return Promise.resolve();
+            body: result
+        };
 
     }
     catch (err) {

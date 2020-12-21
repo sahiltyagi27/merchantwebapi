@@ -1,13 +1,12 @@
 const errors = require('../errors');
 const utils = require('../utils');
-//const { database } = require('../db/mongodb')
+const request = require('request-promise')
 module.exports = async function (context, req) {
     try {
 
         /*   if (!utils.authenticateRequest(req, res, next)) {
                errors.UserNotAuthenticatedError(req, res, next);
            }*/
-        let collection = database.collection("merchants");
         const user = {
 
             merchants: [
@@ -20,7 +19,7 @@ module.exports = async function (context, req) {
 
         let isValidMerchant = false;
         for (let i = 0; i < user.merchants.length; i++) {
-            if (user.merchants[i].merchantID == req.query.id) {
+            if (user.merchants[i].merchantID == req.params.parentMerchantID) {
                 isValidMerchant = true;
             }
         }
@@ -36,12 +35,20 @@ module.exports = async function (context, req) {
             return Promise.resolve();
         }
 
-       /* let docs = await collection.find({ parentMerchantID: { $eq: req.query.id } }).limit(200).toArray();
+        const result = await request.get(`http://localhost:7070/api/get-child-merchants/${req.params.parentMerchantID}`, {
+            json: true,
+            headers: {
+                'x-functions-key': process.env.DEVICE_API_KEY
+            }
+        });
+
+
         context.res = {
-            body: docs
-        }
+            body: result
+        };
         return Promise.resolve();
-*/
+
+       
     } catch (err) {
         utils.handleError(context, err);
     }

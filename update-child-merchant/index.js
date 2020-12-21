@@ -1,13 +1,23 @@
 const errors = require('../errors');
 const utils = require('../utils');
-//const { database } = require('../db/mongodb');
-
+const request = require('request-promise');
 module.exports = async function (context, req) {
     try {
 
         /*   if (!utils.authenticateRequest(req, res, next)) {
                errors.UserNotAuthenticatedError(req, res, next);
            }*/
+
+        if (!req.body) {
+            utils.setContextResError(
+                context,
+                new errors.EmptyRequestBodyError(
+                    'You\'ve requested to update a child merchant but the request body seems to be empty. Kindly pass the child merchant to be updated using request body in application/json format',
+                    400
+                )
+            );
+            return Promise.resolve();
+        }
         const user = {
 
             merchants: [
@@ -24,12 +34,16 @@ module.exports = async function (context, req) {
                 isValidMerchant = true;
             }
         }
-
-  /*      const collection = database.collection('merchants');
-        let docs = await collection.updateOne({ parentMerchantID: req.query.parentMerchantID, _id: req.query.childID }, { $set: req.body });
+        const result = await request.put(`http://localhost:7070/api/update-child-merchant/${req.params.parentMerchantID}/child/${req.params.childID}`, {
+            body: req.body,
+            json: true,
+            headers: {
+                'x-functions-key': process.env.DEVICE_API_KEY
+            }
+        });
         context.res = {
-            body: docs
-        }*/
+            body: result
+        };
         return Promise.resolve()
     } catch (err) {
         utils.handleError(context, err);
