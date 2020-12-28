@@ -61,3 +61,13 @@ class MerchantWebApiServerError extends BaseError {
     }
 }
 exports.MerchantWebApiServerError = MerchantWebApiServerError;
+
+class InvalidUUIDError extends BaseError {
+    constructor (message, code) {
+        super(message, code);
+        this.name = 'InvalidUUIDError';
+        this.code = code;
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+exports.InvalidUUIDError = InvalidUUIDError;

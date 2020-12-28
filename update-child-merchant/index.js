@@ -1,5 +1,6 @@
 const errors = require('../errors');
 const utils = require('../utils');
+const uuid = require('uuid');
 const request = require('request-promise');
 module.exports = async function (context, req) {
     try {
@@ -27,13 +28,46 @@ module.exports = async function (context, req) {
             ],
 
         };
+        if (!uuid.validate(req.params.parentMerchantID)) {
+            utils.setContextResError(
+                context,
+                new errors.InvalidUUIDError(
+                    'The parentMerchantID specified in the URL does not match the UUID v4 format.',
+                    400
+                )
+            )
+            return Promise.resolve();
+        }
+
+        if (!uuid.validate(req.params.childID)) {
+            utils.setContextResError(
+                context,
+                new errors.InvalidUUIDError(
+                    'The childID specified in the URL does not match the UUID v4 format.',
+                    400
+                )
+            )
+            return Promise.resolve();
+        }
 
         let isValidMerchant = false;
         for (let i = 0; i < user.merchants.length; i++) {
-            if (user.merchants[i].merchantID == req.query.parentMerchantID) {
+            if (user.merchants[i].merchantID == req.params.parentMerchantID) {
                 isValidMerchant = true;
             }
         }
+
+        if (!isValidMerchant) {
+            utils.setContextResError(
+                context,
+                new errors.UserNotAuthenticatedError(
+                    'user not linked to merchant',
+                    401
+                )
+            )
+            return Promise.resolve();
+        }
+
         const result = await request.put(`http://localhost:7070/api/update-child-merchant/${req.params.parentMerchantID}/child/${req.params.childID}`, {
             body: req.body,
             json: true,

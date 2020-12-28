@@ -1,5 +1,6 @@
 const errors = require('../errors');
 const utils = require('../utils');
+const uuid = require('uuid');
 const request = require('request-promise');
 module.exports = async function (context, req) {
 
@@ -29,13 +30,25 @@ module.exports = async function (context, req) {
                 { merchantID: '12358cfa-063d-4f5c-be5d-b90cfb64d1d8' }
             ],
         };
-        
+
         let isValidMerchant = false;
         for (var i = 0, len = user.merchants.length; i < len; i++) {
             if (user.merchants[i].merchantID === req.params.merchantID) {   //Validate whether user is allowed to see merchant data or not?
                 isValidMerchant = true;
             }
         }
+
+        if (!uuid.validate(req.params.merchantID)) {
+            utils.setContextResError(
+                context,
+                new errors.InvalidUUIDError(
+                    'The MerchantID specified in the URL does not match the UUID v4 format.',
+                    400
+                )
+            )
+            return Promise.resolve();
+        }
+
         if (!isValidMerchant) {
             utils.setContextResError(
                 context,

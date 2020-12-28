@@ -1,6 +1,7 @@
 const errors = require('../errors');
 const utils = require('../utils');
 const request = require('request-promise')
+const uuid = require('uuid');
 module.exports = async function (context, req) {
     try {
 
@@ -16,7 +17,16 @@ module.exports = async function (context, req) {
             ],
 
         };
-
+        if (!uuid.validate(req.params.parentMerchantID)) {
+            utils.setContextResError(
+                context,
+                new errors.InvalidUUIDError(
+                    'The parentMerchantID specified in the URL does not match the UUID v4 format.',
+                    400
+                )
+            )
+            return Promise.resolve();
+        }
         let isValidMerchant = false;
         for (let i = 0; i < user.merchants.length; i++) {
             if (user.merchants[i].merchantID == req.params.parentMerchantID) {
@@ -48,7 +58,7 @@ module.exports = async function (context, req) {
         };
         return Promise.resolve();
 
-       
+
     } catch (err) {
         utils.handleError(context, err);
     }

@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const { voucherApiErrorCodes } = require('../errors/api-error-codes')
 const errors = require('../errors');
 exports.authenticateRequest = (context, req) => {
     if (req.headers.authorization) {
