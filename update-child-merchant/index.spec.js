@@ -23,7 +23,7 @@ describe('Update child merchant', async () => {
     });
     it('It should throw error on incorrect childID field', async () => {
         try {
-            await request.get(`http://localhost:7071/api/update-child-merchant/${parentMerchantID}/child/123`, {
+            await request.put(`http://localhost:7071/api/update-child-merchant/${parentMerchantID}/child/123`, {
                 json: true,
                 body: data
             });
