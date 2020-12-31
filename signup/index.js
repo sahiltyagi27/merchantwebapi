@@ -18,7 +18,10 @@ module.exports = async function (context, req) {
 
         const result = await request.post('http://localhost:7070/api/signup', {
             json: true,
-            body: req.body
+            body: req.body,
+            headers: {
+                'x-functions-key': process.env.USER_API_KEY
+            }
         });
         context.res = {
             body: result

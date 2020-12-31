@@ -3,15 +3,46 @@
 const request = require('request-promise');
 const expect = require('chai').expect;
 const uuid = require('uuid');
-//const merchantID = '2cc58cfa-063d-4f5c-be5d-b90cfb64d1d6';
-const parentMerchantID = '2cc58cfa-063d-4f5c-be5d-b90cfb64d1d6';
+const parentMerchantID = uuid.v4();
+const crypto = require('crypto');
+const randomString = crypto.randomBytes(3).toString('hex');
+const email = `test.${randomString}@testmail.com`;
+const sampleUser = { ...require('../spec/sample-docs/Users'), _id: uuid.v4(), email }
+sampleUser.merchants[0].merchantID = parentMerchantID;
+let authToken
 
 
 describe('Get child merchants', async () => {
+    before(async () => {
+        sampleUser.merchants[0].merchantID = parentMerchantID;
+
+        await request.post('http://localhost:7071/api/signup', {
+            body: sampleUser,
+            json: true,
+            headers: {
+                'x-functions-key': process.env.USER_API_KEY
+            }
+        });
+
+        const token = await request.post('http://localhost:7071/api/login-user', {
+            body: {
+                email: sampleUser.email,
+                password: sampleUser.password
+            },
+            json: true,
+            headers: {
+                'x-functions-key': process.env.USER_API_KEY
+            }
+        });
+        authToken = token.accesstoken;
+    });
     it('It should throw error on incorrect id field', async () => {
         try {
             await request.get('http://localhost:7071/api/get-child-merchants/123', {
-                json: true
+                json: true,
+                headers: {
+                    'authorization': authToken
+                }
             });
         } catch (error) {
             const response = {
@@ -26,10 +57,10 @@ describe('Get child merchants', async () => {
     it('should throw error on data not exist', async () => {
         try {
             await request.get(`http://localhost:7071/api/get-child-merchants/${parentMerchantID}`, {
-                json: true
-                // body: {
-                //     userMerchants: [merchantID]
-                // }
+                json: true,
+                headers: {
+                    'authorization': authToken
+                }
             });
         } catch (error) {
             const response = {
@@ -41,5 +72,14 @@ describe('Get child merchants', async () => {
             expect(error.statusCode).to.equal(404);
             expect(error.error).to.eql(response);
         }
+    });
+    after(async () => {
+        await request.delete(`http://localhost:7071/api/delete-user/${sampleUser._id}`, {
+            json: true,
+            headers: {
+                'authorization': authToken
+            }
+        });
+
     });
 });
