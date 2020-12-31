@@ -4,9 +4,16 @@ const request = require('request-promise');
 module.exports = async function (context, req) {
     try {
 
-        /*   if (!utils.authenticateRequest(req, res, next)) {
-               errors.UserNotAuthenticatedError(req, res, next);
-           }*/
+        if (!utils.authenticateRequest(context, req)) {
+            utils.setContextResError(
+                context,
+                new errors.UserNotAuthenticatedError(
+                    'Unable to authenticate user.',
+                    401
+                )
+            );
+            return Promise.reject();
+        }
 
         if (!req.body) {
             utils.setContextResError(
@@ -30,15 +37,13 @@ module.exports = async function (context, req) {
             return Promise.resolve();
         }
 
-        const user = {
-
-            merchants: [
-                { merchantID: '12358cfa-063d-4f5c-be5d-b90cfb64d1d6' },
-                { merchantID: '12358cfa-063d-4f5c-be5d-b90cfb64d1d7' },
-                { merchantID: '12358cfa-063d-4f5c-be5d-b90cfb64d1d8' }
-            ],
-
-        };
+        var token = utils.decodeToken(req.headers.authorization);
+        let user = await request.get(`http://localhost:7071/api/users/${token._id}`, { //Get User
+            json: true,
+            headers: {
+                'authorization': req.headers.authorization
+            }
+        });
 
         let isMerchantLinked = false;
 

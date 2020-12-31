@@ -6,7 +6,7 @@ module.exports = async function (context, req) {
 
     try {
 
-        /*if (!utils.authenticateRequest(context, req)) {
+        if (!utils.authenticateRequest(context, req)) {
             utils.setContextResError(
                 context,
                 new errors.UserNotAuthenticatedError(
@@ -17,20 +17,13 @@ module.exports = async function (context, req) {
             return Promise.reject();
             }
         var token = utils.decodeToken(req.headers.authorization);
-        const user = await request.get(`${process.env.USER_API_URL}/api/v1/users/${token._id}`, { //Get User
+        const user = await request.get(`http://localhost:7071/api/users/${token._id}`, { //Get User
             json: true,
             headers: {
-                'x-functions-key': process.env.USER_API_KEY
+                'authorization': req.headers.authorization
             }
-        });*/
-        const user = {
-            merchants: [
-                { merchantID: '12358cfa-063d-4f5c-be5d-b90cfb64d1d6' },
-                { merchantID: '12358cfa-063d-4f5c-be5d-b90cfb64d1d7' },
-                { merchantID: '12358cfa-063d-4f5c-be5d-b90cfb64d1d8' }
-            ],
-        };
-
+        });
+        
         let isValidMerchant = false;
         for (var i = 0, len = user.merchants.length; i < len; i++) {
             if (user.merchants[i].merchantID === req.params.merchantID) {   //Validate whether user is allowed to see merchant data or not?
