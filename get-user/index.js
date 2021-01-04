@@ -1,6 +1,5 @@
 const utils = require('../utils')
 const errors = require('../errors')
-const promise = require('request-promise');
 const request = require('request-promise');
 module.exports = async function (context, req) {
     try {
