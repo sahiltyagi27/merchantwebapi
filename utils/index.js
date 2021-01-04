@@ -5,7 +5,7 @@ const errors = require('../errors');
 exports.authenticateRequest = (context, req) => {
     if (req.headers.authorization) {
         try {
-            if (this.decodeToken(req.headers.authorization).exp <= new Date()) {
+            if (this.validateToken(req.headers.authorization)) {
                 return true;
             }
         } catch (e) {
@@ -15,6 +15,13 @@ exports.authenticateRequest = (context, req) => {
         return false;
     }
 };
+exports.validateToken = (token) => {
+    try {
+        return jwt.validate(token, process.env.JWT_SECRET)
+    } catch (e) {
+        return e;
+    }
+}
 exports.decodeToken = (token) => {
     try {
         const decodedToken = jwt.decode(token, process.env.JWT_SECRET);
